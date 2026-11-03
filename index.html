@@ -168,15 +168,23 @@
             gap: 14px;
             margin-top: 22px;
         }
+        /* Both buttons are exactly --cta-height tall. The Google Play badge
+           image is 646x250 with the visible badge in the middle 564x168 (41px
+           of transparent padding all round), so the image is scaled to make
+           the visible part that tall and the padding is cancelled out. */
+        .cta { --cta-height: 54px; }
+        .play-badge { display: block; line-height: 0; }
         .play-badge img {
             display: block;
-            height: 62px;
+            height: calc(var(--cta-height) * 250 / 168);
             width: auto;
-            margin: -9px; /* the badge image has its own padding */
+            margin: calc(var(--cta-height) * -41 / 168);
         }
         .button {
-            display: inline-block;
-            padding: 12px 22px;
+            display: inline-flex;
+            align-items: center;
+            height: var(--cta-height);
+            padding: 0 22px;
             border-radius: 12px;
             background: var(--green);
             color: #fff;
