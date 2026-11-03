@@ -1,0 +1,374 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>EZpixel · Indie games</title>
+    <meta name="description" content="EZpixel is a one-person indie game studio. Our first game, Blunday, is a jumping game about a small blue cube with big dreams: Get Rich or Fall Trying.">
+    <meta property="og:title" content="EZpixel · Indie games">
+    <meta property="og:description" content="Home of Blunday: a small blue cube with big dreams. Get Rich or Fall Trying.">
+    <meta property="og:image" content="https://ezpixel.github.io/assets/blunday-feature.png">
+    <meta property="og:type" content="website">
+    <meta name="theme-color" content="#1a0a3c">
+    <link rel="icon" type="image/png" href="assets/blunday-icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;700&family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --sky-top:    #1a0a3c;
+            --sky-bottom: #2a4a7a;
+            --ink:        #0d1640;
+            --text:       #eef1ff;
+            --muted:      #b8c0e0;
+            --gold:       #ffe08a;
+            --blue:       #4a8cf0;
+            --green:      #4cc456;
+            --card:       rgba(255, 255, 255, 0.07);
+            --card-line:  rgba(255, 255, 255, 0.12);
+        }
+
+        * { box-sizing: border-box; }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: 'Nunito', system-ui, sans-serif;
+            font-size: 17px;
+            line-height: 1.6;
+            color: var(--text);
+            background: linear-gradient(180deg, var(--sky-top) 0%, var(--sky-bottom) 100%) fixed;
+            background-color: var(--sky-top);
+        }
+
+        /* Drifting night-sky bubbles, like the game's background */
+        .sky {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+        .sky span {
+            position: absolute;
+            border-radius: 50%;
+            background: #fff;
+            opacity: 0.07;
+            animation: drift 18s ease-in-out infinite alternate;
+        }
+        @keyframes drift { to { transform: translateY(-40px); } }
+
+        a { color: var(--gold); }
+
+        .wrap {
+            position: relative;
+            z-index: 1;
+            max-width: 1040px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        h1, h2, h3, .brand {
+            font-family: 'Fredoka', 'Nunito', sans-serif;
+            font-weight: 700;
+            line-height: 1.15;
+            margin: 0;
+        }
+
+        /* ── Header ─────────────────────────────────────────── */
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 22px 0;
+        }
+        .brand {
+            font-size: 28px;
+            letter-spacing: 0.5px;
+            text-decoration: none;
+            color: var(--text);
+            text-shadow: 0 3px 0 var(--ink);
+        }
+        .brand b { color: var(--gold); }
+        nav a {
+            color: var(--muted);
+            text-decoration: none;
+            margin-left: 22px;
+            font-weight: 700;
+        }
+        nav a:hover { color: var(--text); }
+
+        /* ── Hero ───────────────────────────────────────────── */
+        .hero {
+            padding: 56px 0 40px;
+            text-align: center;
+        }
+        .hero p.kicker {
+            color: var(--gold);
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-size: 14px;
+            margin: 0 0 14px;
+        }
+        .hero h1 {
+            font-size: clamp(38px, 7vw, 64px);
+            text-shadow: 0 4px 0 var(--ink);
+        }
+        .hero p.lead {
+            max-width: 620px;
+            margin: 18px auto 0;
+            color: var(--muted);
+            font-size: 19px;
+        }
+
+        /* ── Game card ──────────────────────────────────────── */
+        .game {
+            margin: 40px 0 72px;
+            background: var(--card);
+            border: 1px solid var(--card-line);
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+        }
+        .game img.feature {
+            display: block;
+            width: 100%;
+            height: auto;
+            aspect-ratio: 1024 / 500;
+        }
+        .game-body {
+            display: grid;
+            grid-template-columns: 1.3fr 1fr;
+            gap: 40px;
+            padding: 36px;
+        }
+        .game-title {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 14px;
+        }
+        .game-title img {
+            width: 64px;
+            height: 64px;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+        }
+        .game-title h2 { font-size: 36px; }
+        .game-title .tagline { color: var(--gold); font-weight: 700; margin: 2px 0 0; }
+        .game-body p { margin: 0 0 14px; color: var(--muted); }
+
+        .cta {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 14px;
+            margin-top: 22px;
+        }
+        .play-badge img {
+            display: block;
+            height: 62px;
+            width: auto;
+            margin: -9px; /* the badge image has its own padding */
+        }
+        .button {
+            display: inline-block;
+            padding: 12px 22px;
+            border-radius: 12px;
+            background: var(--green);
+            color: #fff;
+            font-weight: 700;
+            text-decoration: none;
+            border: 3px solid var(--ink);
+            box-shadow: 0 4px 0 var(--ink);
+            transition: transform 0.1s, box-shadow 0.1s;
+        }
+        .button:hover { transform: translateY(-2px); box-shadow: 0 6px 0 var(--ink); }
+        .button:active { transform: translateY(2px); box-shadow: 0 2px 0 var(--ink); }
+
+        .features {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: grid;
+            gap: 12px;
+        }
+        .features li {
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+            background: rgba(0, 0, 0, 0.18);
+            border-radius: 14px;
+            padding: 12px 14px;
+            color: var(--muted);
+        }
+        .features li strong { color: var(--text); display: block; }
+        .features .emoji { font-size: 22px; line-height: 1.2; }
+
+        /* ── Badges strip ───────────────────────────────────── */
+        .badges {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 0 0 72px;
+        }
+        .badges img {
+            width: 112px;
+            height: 112px;
+            border-radius: 50%;
+            box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
+            animation: bob 3.2s ease-in-out infinite;
+        }
+        .badges img:nth-child(2) { animation-delay: -1.1s; }
+        .badges img:nth-child(3) { animation-delay: -2.2s; }
+        @keyframes bob { 50% { transform: translateY(-10px); } }
+
+        /* ── About ──────────────────────────────────────────── */
+        .about {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-bottom: 72px;
+        }
+        .panel {
+            background: var(--card);
+            border: 1px solid var(--card-line);
+            border-radius: 20px;
+            padding: 28px;
+        }
+        .panel h3 { font-size: 24px; margin-bottom: 10px; }
+        .panel p { margin: 0 0 10px; color: var(--muted); }
+
+        /* ── Footer ─────────────────────────────────────────── */
+        footer {
+            border-top: 1px solid var(--card-line);
+            padding: 26px 0 40px;
+            color: var(--muted);
+            font-size: 14px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 12px;
+        }
+        footer a { color: var(--muted); }
+        footer a:hover { color: var(--text); }
+        footer .links a { margin-left: 18px; }
+        .legal { font-size: 12px; opacity: 0.75; flex-basis: 100%; }
+
+        @media (max-width: 760px) {
+            .game-body, .about { grid-template-columns: 1fr; }
+            .game-body { padding: 24px; gap: 28px; }
+            .badges img { width: 84px; height: 84px; }
+            nav a { margin-left: 14px; }
+            footer .links a { margin: 0 18px 0 0; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .sky span, .badges img { animation: none; }
+            html { scroll-behavior: auto; }
+        }
+    </style>
+</head>
+<body>
+    <div class="sky" aria-hidden="true">
+        <span style="left:6%;  top:12%; width:70px;  height:70px"></span>
+        <span style="left:84%; top:8%;  width:40px;  height:40px; animation-delay:-4s"></span>
+        <span style="left:70%; top:46%; width:110px; height:110px; animation-delay:-9s"></span>
+        <span style="left:12%; top:64%; width:46px;  height:46px; animation-delay:-6s"></span>
+        <span style="left:44%; top:88%; width:80px;  height:80px; animation-delay:-2s"></span>
+    </div>
+
+    <div class="wrap">
+        <header>
+            <a class="brand" href="./">EZ<b>pixel</b></a>
+            <nav>
+                <a href="#blunday">Blunday</a>
+                <a href="#about">About</a>
+                <a href="#contact">Contact</a>
+            </nav>
+        </header>
+
+        <section class="hero">
+            <p class="kicker">Independent game studio</p>
+            <h1>Small games with big dreams.</h1>
+            <p class="lead">EZpixel is a one-person indie studio making bright, bouncy games
+                that are quick to pick up and hard to put down.</p>
+        </section>
+
+        <article class="game" id="blunday">
+            <img class="feature" src="assets/blunday-feature.png" width="1024" height="500"
+                 alt="Blunday, a small blue cube, standing on a green platform under a night sky full of coins.">
+            <div class="game-body">
+                <div>
+                    <div class="game-title">
+                        <img src="assets/blunday-icon.png" width="64" height="64" alt="">
+                        <div>
+                            <h2>Blunday</h2>
+                            <p class="tagline">Get Rich or Fall Trying</p>
+                        </div>
+                    </div>
+                    <p>Blunday is a small blue cube with big dreams. Bounce from platform to platform,
+                        grab every coin, gem and gold bar in sight, and climb as high as you dare.
+                        One wrong jump and it's a long way down.</p>
+                    <p>Spend your riches on upgrades, dress Blunday up in the wardrobe, and chase
+                        achievements and high scores with your friends on Google Play Games.</p>
+                    <div class="cta">
+                        <a class="play-badge" href="https://play.google.com/store/apps/details?id=com.ezpixel.blunday">
+                            <img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png"
+                                 alt="Get it on Google Play" width="210" height="81">
+                        </a>
+                        <a class="button" href="https://ezpixel.github.io/Blunday/">Play in your browser</a>
+                    </div>
+                </div>
+                <ul class="features">
+                    <li><span class="emoji" aria-hidden="true">🚀</span>
+                        <span><strong>Power-ups</strong>Jetpacks, spring boots, umbrellas, magnets and stars.</span></li>
+                    <li><span class="emoji" aria-hidden="true">💰</span>
+                        <span><strong>Upgrades</strong>Turn your gold into higher jumps, more fuel and a Ctrl+Z Jetpack.</span></li>
+                    <li><span class="emoji" aria-hidden="true">🎩</span>
+                        <span><strong>Wardrobe</strong>Hats, glasses, colours and emotes, because a cube has feelings too.</span></li>
+                    <li><span class="emoji" aria-hidden="true">🏆</span>
+                        <span><strong>Google Play Games</strong>Achievements, a high-score leaderboard and cloud saves.</span></li>
+                </ul>
+            </div>
+        </article>
+
+        <div class="badges" aria-hidden="true">
+            <img src="assets/blunday-jetpack.png" width="112" height="112" alt="">
+            <img src="assets/blunday-crown.png" width="112" height="112" alt="">
+            <img src="assets/blunday-rich.png" width="112" height="112" alt="">
+        </div>
+
+        <section class="about" id="about">
+            <div class="panel">
+                <h3>About EZpixel</h3>
+                <p>EZpixel is an independent studio run by one developer. Design, code, art
+                    direction and every last bounce are made in-house.</p>
+                <p>Blunday is our first game. More are on the way.</p>
+            </div>
+            <div class="panel" id="contact">
+                <h3>Get in touch</h3>
+                <p>Questions, feedback, bug reports or business inquiries:</p>
+                <p><a href="mailto:ezpixelinteractive@gmail.com">ezpixelinteractive@gmail.com</a></p>
+                <p>EZpixel is also on <a href="https://github.com/EZpixel">GitHub</a>.</p>
+            </div>
+        </section>
+
+        <footer>
+            <span>© <span id="year">2026</span> EZpixel</span>
+            <span class="links">
+                <a href="https://ezpixel.github.io/Blunday/privacy.html">Blunday privacy policy</a>
+                <a href="mailto:ezpixelinteractive@gmail.com">Contact</a>
+            </span>
+            <span class="legal">Google Play and the Google Play logo are trademarks of Google LLC.</span>
+        </footer>
+    </div>
+
+    <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>
